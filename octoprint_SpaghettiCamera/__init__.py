@@ -11,9 +11,17 @@ from __future__ import absolute_import
 
 import octoprint.plugin
 
-class SpaghettiCameraPlugin(octoprint.plugin.StartupPlugin):
+class SpaghettiCameraPlugin(octoprint.plugin.StartupPlugin,
+                        octoprint.plugin.TemplatePlugin,
+                        octoprint.plugin.SettingsPlugin):
     def on_after_startup(self):
         self._logger.info("Hello World!")
+
+    def get_settings_defaults(self):
+        return dict(url="https://en.wikipedia.org/wiki/Hello_world")
+    
+    def get_template_vars(self):
+        return dict(url=self._settings.get(["url"]))
 
 # If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
